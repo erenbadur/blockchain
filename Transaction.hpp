@@ -9,12 +9,13 @@ class Transaction {
     std::string getFromAddress() const;
     std::string getToAddress() const;
     int getAmount() const;
-    std::string calculateHash();
+    std::string calculateHash() const;
     void signTransaction(std::string signingKey);
-    bool isValid();
+    bool isValid() const;
 
   private:
     std::string fromAddress;
     std::string toAddress;
     int amount;
+    std::string signature;
 };

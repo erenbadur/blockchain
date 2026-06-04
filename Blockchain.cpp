@@ -1,6 +1,7 @@
 #include "Blockchain.hpp"
 #include <iostream>
 #include <chrono>
+#include <stdexcept>
 
 Blockchain::Blockchain() {
     chain.push_back(createGenesisBlock());
@@ -22,6 +23,8 @@ Block Blockchain::getLatestBlock() {
 }
 
 void Blockchain::minePendingTransactions(std::string miningRewardAddress) {
+    Transaction rewardTx("", miningRewardAddress, this->miningReward);
+    this->pendingTransactions.push_back(rewardTx);
     auto now = std::chrono::system_clock::now();
     auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
     Block block(
@@ -36,7 +39,13 @@ void Blockchain::minePendingTransactions(std::string miningRewardAddress) {
     this->pendingTransactions.push_back(Transaction("", miningRewardAddress, this->miningReward));
 }
 
-void Blockchain::createTransaction(Transaction transaction) {
+void Blockchain::addTransaction(Transaction transaction) {
+    if (transaction.getFromAddress() == ""|| transaction.getToAddress() == "") {
+        throw std::invalid_argument("Transaction must include from and to address");
+    }
+    if (!transaction.isValid()) {
+        throw std::runtime_error("Cannot add invalid transaction to chain");
+    }
     this->pendingTransactions.push_back(transaction);
 }
 
@@ -60,6 +69,10 @@ bool Blockchain::isChainValid() {
     for (size_t i = 1; i < this->chain.size(); i++) {
         Block currentBlock = this->chain[i];
         Block previousBlock = this->chain[i - 1];
+
+        if (!currentBlock.hasValidTransactions()) {
+            return false;
+        }
 
         if (currentBlock.hash != currentBlock.calculateHash()) {
             return false;

@@ -8,25 +8,20 @@
 int main() {
     KeyGenerator kg;
     std::pair<std::string, std::string> keyPair = kg.generateKeyPair();
-    std::cout << "Private key: " << keyPair.first << std::endl;
-    std::cout << "Public key: " << keyPair.second << std::endl;
-    std::cout << "\n" << std::endl;
+    std::string myPrivateKey = keyPair.first;
+    std::string myWalletAddress = keyPair.second;
+    std::cout << "Private key: " << myPrivateKey << "\n";
+    std::cout << "Public key: " << myWalletAddress << "\n\n";
     
     Blockchain myCoin;
-    Transaction transaction = Transaction("address1", "address2", 100);
-    Transaction transaction2 = Transaction("address2", "address1", 50);
-    myCoin.createTransaction(transaction);
-    myCoin.createTransaction(transaction2);
+    Transaction tx1 = Transaction(myWalletAddress, "recipient_public_key", 10);
+    tx1.signTransaction(myPrivateKey);
+    myCoin.addTransaction(tx1);
 
     std::cout << "Starting the miner..." << std::endl;
-    myCoin.minePendingTransactions("my-address");
-    std::cout << "Balance is " << myCoin.getBalanceOfAddress("my-address") << std::endl;
-    std::cout << "\n" << std::endl;
-    std::cout << "Starting the miner again..." << std::endl;
-    myCoin.minePendingTransactions("my-address");
-    std::cout << "Balance is " << myCoin.getBalanceOfAddress("my-address") << std::endl;
-    std::cout << "\n" << std::endl;
+    myCoin.minePendingTransactions(myWalletAddress);
+    std::cout << "\nBalance is " << myCoin.getBalanceOfAddress(myWalletAddress) << std::endl << "\n";
     myCoin.printChain();
-    std::cout << "Is blockchain valid? " << (myCoin.isChainValid() ? "true" : "false") << std::endl;
+    std::cout << "Is the blockchain valid? " << (myCoin.isChainValid() ? "Yes" : "No") << std::endl;
     return 0;
 }

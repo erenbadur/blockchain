@@ -1,3 +1,4 @@
 .vscode
 .objs
 main
+.DS_Store

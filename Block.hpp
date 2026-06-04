@@ -19,9 +19,6 @@ class Block {
     ~Block();
 
     std::string calculateHash();
-
     void mineBlock(int difficulty);
-
-  private:
-    std::string sha256(const std::string& str);
+    bool hasValidTransactions();
 };

@@ -10,7 +10,7 @@ class Blockchain {
     Block createGenesisBlock();
     Block getLatestBlock();
     void minePendingTransactions(std::string miningRewardAddress);
-    void createTransaction(Transaction transaction);
+    void addTransaction(Transaction transaction);
     int getBalanceOfAddress(std::string address);
     bool isChainValid();
     void printChain();
