@@ -11,8 +11,8 @@ class Block {
     std::string timestamp;
     std::vector<Transaction> transactions;
     std::string previousHash;
-    std::string hash;
     int nonce;
+    std::string hash;
 
     Block();
     Block(std::string timestamp, std::vector<Transaction> transactions, std::string previousHash = "");

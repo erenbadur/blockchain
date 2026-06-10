@@ -12,6 +12,7 @@ class Blockchain {
     void minePendingTransactions(std::string miningRewardAddress);
     void addTransaction(Transaction transaction);
     int getBalanceOfAddress(std::string address);
+    std::vector<Transaction> getAllTransactionsForWallet(const std::string& address);
     bool isChainValid();
     void printChain();
 

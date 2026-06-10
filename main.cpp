@@ -22,6 +22,7 @@ int main() {
     myCoin.minePendingTransactions(myWalletAddress);
     std::cout << "\nBalance is " << myCoin.getBalanceOfAddress(myWalletAddress) << std::endl << "\n";
     myCoin.printChain();
-    std::cout << "Is the blockchain valid? " << (myCoin.isChainValid() ? "Yes" : "No") << std::endl;
+    std::cout << "Is the blockchain valid? " << (myCoin.isChainValid() ? "Yes" : "No") << std::endl << "\n";
+    myCoin.getAllTransactionsForWallet(myWalletAddress);
     return 0;
 }

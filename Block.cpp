@@ -7,8 +7,8 @@ Block::Block(std::string timestamp, std::vector<Transaction> transactions, std::
     this->timestamp = timestamp;
     this->transactions = transactions;
     this->previousHash = previousHash;
-    this->hash = this->calculateHash();
     this->nonce = 0;
+    this->hash = this->calculateHash();
 }
 
 Block::~Block() {}

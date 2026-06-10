@@ -36,7 +36,7 @@ void Blockchain::minePendingTransactions(std::string miningRewardAddress) {
     std::cout << "Block successfully mined!" << std::endl;
     this->chain.push_back(block);
     this->pendingTransactions.clear();
-    this->pendingTransactions.push_back(Transaction("", miningRewardAddress, this->miningReward));
+    //this->pendingTransactions.push_back(Transaction("", miningRewardAddress, this->miningReward));
 }
 
 void Blockchain::addTransaction(Transaction transaction) {
@@ -63,6 +63,21 @@ int Blockchain::getBalanceOfAddress(std::string address) {
         }
     }
     return balance;
+}
+
+std::vector<Transaction> Blockchain::getAllTransactionsForWallet(const std::string& address) {
+    std::vector<Transaction> txs;
+    // Utilize const reference to prevent deep copies of Block objects
+    for (const auto& block : this->chain) {
+        // Utilize const reference to prevent deep copies of Transaction objects
+        for (const auto& tx : block.transactions) {
+            // Verify address against both sender and recipient
+            if (tx.getFromAddress() == address || tx.getToAddress() == address) {
+                txs.push_back(tx);
+            }
+        }
+    }
+    return txs;
 }
 
 bool Blockchain::isChainValid() {
